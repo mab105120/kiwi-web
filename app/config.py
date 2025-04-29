@@ -1,7 +1,8 @@
-def get_cnx_string():
+class Config:
     username = ''
     password = ''
     hostname = ''
-    port = 3306
     database = ''
-    return f'mysql+pymysql://{username}:{password}@{hostname}:{port}/{database}'
+    SQLALCHEMY_DATABASE_URI=f'mysql+pymysql://{username}:{password}@{hostname}:{port}/{database}'
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+    SQLALCHEMY_RECORD_QUERIES=True
