@@ -21,10 +21,13 @@ def create_user(username: str, password: str, balance: float) -> None:
         raise QueryException('Failed to create a new user', e)
     
 
-def password_matches(username: str, password: str) -> bool:
+def password_matches(username: str, password: str) -> User:
     try: 
         user = User.query.filter_by(username=username).one()
-        return password == user.password
+        if password == user.password:
+            return user
+        else:
+            raise Exception('Username and password do not match')
     except NoResultFound:
         raise Exception(f'No user found with username: {username}')
     except MultipleResultsFound:
@@ -63,5 +66,5 @@ def delete_user(userId: int) -> None:
 # add code for handling exceptions and rolling back the database transaction in the event of a failure.
 def update_balance(userId: int, updated_balance: float) -> None:
     user = User.query.filter_by(id=userId).one()
-    user.balance = update_balance
+    user.balance = updated_balance
     db.session.commit()
